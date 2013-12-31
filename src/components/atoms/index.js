@@ -8,4 +8,5 @@ export { default as Footer } from "./Footer";
 export { default as Select } from "./Select";
 export { default as Radio } from "./RadioButton";
 export { default as Picker } from "./Picker";
+export { default as CustomIcon } from "./CustomIcon";
 export * from "antd";

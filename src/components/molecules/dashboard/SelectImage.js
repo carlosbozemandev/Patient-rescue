@@ -1,45 +1,91 @@
-import { Form, Upload as AntUpload, Button, Logo } from "components";
+import { PlusOutlined } from "@ant-design/icons";
+import { Modal, Upload as AntUpload, Form } from "antd";
+import { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
-import { useState } from "react";
-import { beforeUpload, getBase64 } from "utils/imageUtils";
-import listingPageCardImage from "assets/images/listing-card.svg";
+import { beforeUpload, getBase64 } from "utils";
 
-// Add more custom props as per need
-const SelectImage = ({ label }) => {
-  const [UploadImage, setUploadImage] = useState(listingPageCardImage);
+const CustomUpload = ({ label, name, validationRules, imgUrl, additionalProps }) => {
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [fileList, setFileList] = useState([]);
 
-  const handleImageChange = (info) => {
-    if (info.fileList.length >= 0) {
-      getBase64(info.fileList[0].originFileObj, (imageUrl) => setUploadImage(imageUrl));
+  const handleCancel = () => setPreviewOpen(false);
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
     }
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf("/") + 1));
   };
 
+  const handleChange = async ({ fileList: newFileList }) => {
+    if (newFileList?.length > 0) {
+      const abc = beforeUpload(newFileList[0]);
+      if (abc === false) {
+        setFileList(newFileList);
+      }
+    } else {
+      setFileList(newFileList);
+    }
+  };
+  useEffect(() => {
+    if (imgUrl) {
+      setFileList([
+        {
+          uid: "-1",
+          name: "image.png",
+          status: "done",
+          url: imgUrl,
+        },
+      ]);
+    } else {
+      setFileList([]);
+    }
+  }, [imgUrl]);
+
   return (
-    <Form.Item label={label}>
-      <div className="text-center">
-        <div className="bg-gray">
-          <Logo image={UploadImage} altText="avatar" additionalProps={{ className: "w-250" }} />
-          <div className="absolute bottom-20 right-20">
-            <AntUpload
-              showUploadList={false}
-              beforeUpload={beforeUpload}
-              onChange={handleImageChange}
-            >
-              <Button text="Upload" />
-            </AntUpload>
+    <>
+      <Form.Item name={name} rules={validationRules} label={label}>
+        <AntUpload
+          listType="picture-card"
+          fileList={fileList}
+          onPreview={handlePreview}
+          onChange={handleChange}
+          beforeUpload={() => false}
+          maxCount={15}
+          multiple
+          {...additionalProps}
+        >
+          <div>
+            <PlusOutlined />
+            <div className="mt-2">Upload</div>
           </div>
-        </div>
-      </div>
-    </Form.Item>
+        </AntUpload>
+      </Form.Item>
+      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+        <img alt="example" className="w-full" src={previewImage} />
+      </Modal>
+    </>
   );
 };
 
-SelectImage.defaultProps = {
+CustomUpload.defaultProps = {
   label: "",
+  validationRules: [{}],
+  imgUrl: undefined,
+  additionalProps: {},
 };
 
-SelectImage.propTypes = {
+CustomUpload.propTypes = {
+  additionalProps: PropTypes.shape({}),
   label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  validationRules: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.shape({}), PropTypes.func])),
+  imgUrl: PropTypes.string,
 };
 
-export default SelectImage;
+export default CustomUpload;

@@ -1,5 +1,5 @@
 const antCssOverrides = {
-  "@primary-color": "#52c36f", // also used in primary button bg color
+  "@primary-color": "#57cac3", // also used in primary button bg color
   "@form-item-margin-bottom": "10px",
   "@layout-header-background": "#271002",
   "@form-item-trailing-colon": false,

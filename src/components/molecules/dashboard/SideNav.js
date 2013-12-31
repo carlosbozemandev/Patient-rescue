@@ -1,6 +1,5 @@
 import { PictureFilled } from "@ant-design/icons";
-import logo from "assets/images/baitussalam_logo.png";
-import { Logo, Layout, SideMenu } from "components/atoms";
+import { CustomIcon, Layout, SideMenu } from "components/atoms";
 import { useState } from "react";
 import menuItems from "__fixtures__/menu-items";
 import PropTypes from "prop-types";
@@ -22,7 +21,10 @@ const SideNav = ({ isCollapsed }) => {
       className="sideNav_sider"
     >
       <div className="logo">
-        <Logo image={logo} altText="Baitussalam Logo" additionalProps={{ className: "w-7/12" }} />
+        <CustomIcon
+          name="MedicineBoxOutlined"
+          additionalProps={{ style: { fontSize: "50px", color: "#fc653d" } }}
+        />{" "}
       </div>
       <SideMenu
         navigate={navigate}

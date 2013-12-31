@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Menu as AntMenu } from "antd";
 import React from "react";
+import { CustomIcon } from "components";
 
 const SideMenu = ({ menuItems, icon, setSelectedRoute, selectedRoute, navigate }) => (
   <AntMenu
@@ -16,7 +17,8 @@ const SideMenu = ({ menuItems, icon, setSelectedRoute, selectedRoute, navigate }
         {!Array.isArray(item?.children) && (
           <AntMenu.Item
             key={item?.key}
-            icon={icon}
+            // icon={icon}
+            icon={<CustomIcon name={item?.icon} />}
             className="menuItem_height"
             onClick={() => {
               navigate(`${item?.route}`);
@@ -35,7 +37,8 @@ const SideMenu = ({ menuItems, icon, setSelectedRoute, selectedRoute, navigate }
             {item?.children?.map((subItem) => (
               <AntMenu.Item
                 key={subItem?.key}
-                icon={icon}
+                // icon={icon}
+                icon={<CustomIcon name={item?.icon} />}
                 className="menuItem_height"
                 onClick={() => {
                   navigate(`${subItem?.route}`);

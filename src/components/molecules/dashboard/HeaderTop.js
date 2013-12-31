@@ -1,46 +1,62 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Header, Dropdown, Menu, Space } from "components/atoms";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userLogout } from "redux/reducers";
 import {
   DownOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  SmileOutlined,
   LogoutOutlined,
+  MailFilled,
 } from "@ant-design/icons";
-import { ROUTES, UI_TEXT } from "constants";
-import { useSessionStorage } from "hooks";
+import { UI_TEXT } from "constants";
+import { auth, db, logout } from "firebaseConfig";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { query, collection, getDocs, where } from "firebase/firestore";
+import { toast } from "utils";
 
 const HeaderTop = ({ isCollapsed, setCollapsed }) => {
-  const { clear } = useSessionStorage();
+  const [user, loading] = useAuthState(auth);
+  const [name, setName] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const onLogout = () => {
-    dispatch(userLogout());
-    clear();
-    navigate(ROUTES.ADMIN);
+  const fetchUserName = async () => {
+    try {
+      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+      const doc = await getDocs(q);
+      const data = doc.docs[0].data();
+      setName(data.name);
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred while fetching user data");
+      toast({ type: "error" });
+    }
   };
+  useEffect(() => {
+    if (loading) return;
+    // eslint-disable-next-line consistent-return
+    if (!user) return navigate("/");
+    fetchUserName();
+  }, [user, loading, navigate, fetchUserName]);
+
+  console.log(name);
 
   const items = [
     {
       key: "1",
       label: (
         <a target="_blank" rel="noopener noreferrer" href="/">
-          {UI_TEXT.CTA.PROFILE}
+          {user?.email}
         </a>
       ),
-      icon: <SmileOutlined />,
-      disabled: true,
+      icon: <MailFilled />,
+      disabled: false,
     },
     {
-      key: "2",
+      key: "3",
       danger: true,
       label: (
-        <span tabIndex={-1} role="link" onClick={onLogout}>
+        <span tabIndex={-1} role="link" onClick={logout}>
           {UI_TEXT.CTA.LOGOUT}
         </span>
       ),
@@ -77,7 +93,7 @@ const HeaderTop = ({ isCollapsed, setCollapsed }) => {
         <Dropdown overlay={<Menu items={items} />}>
           <div>
             <Space>
-              Baitussalam
+              Patient Rescue
               <DownOutlined />
             </Space>
           </div>

@@ -22,3 +22,5 @@ const Dashboard = () => {
   );
 };
 export default Dashboard;
+
+export { default as AddPatient } from "./AddPatient";

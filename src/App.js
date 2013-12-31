@@ -1,72 +1,32 @@
-import { ROUTES } from "constants";
-import React, { Suspense } from "react";
+// import { ROUTES } from "constants";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { PrivateRoute, PublicRoute } from "routes";
-import CreateProject from "pages/dashboard/CreateProjects";
-import ProjectList from "pages/dashboard/ProjectList";
-
-const CreateMemberShip = React.lazy(() => import("pages/dashboard/CreateMemberShip"));
-const SearchMembership = React.lazy(() => import("pages/dashboard/SearchMembership"));
-const Home = React.lazy(() => import("pages/dashboard/Home"));
-const Dashboard = React.lazy(() => import("pages/dashboard"));
-const Login = React.lazy(() => import("pages/Login"));
-const NoMatch = React.lazy(() => import("pages/NoMatch"));
-const ParticipantList = React.lazy(() =>
-  import("pages/dashboard/IamMusalli/Participant/Participant")
-);
-const SessionList = React.lazy(() => import("pages/dashboard/IamMusalli/Session"));
-const PaymentList = React.lazy(() => import("pages/dashboard/IamMusalli/Payment"));
-const VolunteerList = React.lazy(() => import("pages/dashboard/IamMusalli/Volunteer"));
-const MosqueList = React.lazy(() => import("pages/dashboard/IamMusalli/Mosque"));
-const AttendanceBulk = React.lazy(() => import("pages/dashboard/IamMusalli/AttendanceBulk"));
+import { NoMatch, Dashboard, Home, Login, AddPatient, PatientRequest, PatientList } from "pages";
+import { ROUTES } from "constants";
+// import Dashboard from "./pages/dashboard";
+// import Home from "./pages/dashboard/Home";
+// import Login from "./pages/Login";
 
 const App = () => (
   <Router>
-    <Suspense fallback={<div>Loading...</div>}>
-      <Routes>
-        <Route
-          index
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path={ROUTES.ADMIN}
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-        <Route
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-          path={ROUTES.DASHBOARD}
-        >
-          <Route index element={<Home />} />
-          <Route path={ROUTES.MEMBER.SEARCH_MEMBERSHIP} element={<SearchMembership />} />
-          <Route path={ROUTES.MEMBER.CREATE_MEMBERSHIP} element={<CreateMemberShip />} />
-          <Route path={ROUTES.CREATE_PROJECT} element={<CreateProject />} />
-          <Route path={ROUTES.PROJECT_LIST} element={<ProjectList />} />
-          <Route path={ROUTES.MUSALLI.MUSALLI_VOLUNTEER_LIST} element={<VolunteerList />} />
-          {/* Musalli Participant */}
-          <Route path={ROUTES.MUSALLI.PARTICIPANT.PARTICIPANT_LIST} element={<ParticipantList />} />
-          <Route path={ROUTES.MUSALLI.PARTICIPANT.ADD_PARTICIPANT} element={<ParticipantList />} />
+    {" "}
+    <Routes>
+      <Route exact path="/" element={<Login />} />
+      <Route path="/sign-in" element={<Login />} />
+      <Route path="/admin" element={<Login />} />
 
-          <Route path={ROUTES.MUSALLI.MUSALLI_PAYMENT_LIST} element={<PaymentList />} />
-          <Route path={ROUTES.MUSALLI.MUSALLI_SESSION_LIST} element={<SessionList />} />
-          <Route path={ROUTES.MUSALLI.MUSALLI_MOSQUE_LIST} element={<MosqueList />} />
-          <Route path={ROUTES.MUSALLI.ATTENDANCE_BULK} element={<AttendanceBulk />} />
-          <Route path="*" exact element={<NoMatch />} />
-        </Route>
+      {/* <Route path="/sign-up" element={<SignUp />} /> */}
+      {/* <Route exact path="/reset" element={<Reset />} /> */}
+      {/* <Route exact path="/dashboard" element={<Dashboard />} /> */}
+
+      <Route element={<Dashboard />} path="/dashboard">
+        <Route path={ROUTES.ADD_PATIENT} element={<AddPatient />} />
+        <Route index element={<Home />} />
+        <Route path={ROUTES.PATIENT_LIST} element={<PatientList />} />
+        <Route path={ROUTES.PATIENT_REQUEST} element={<PatientRequest />} />
         <Route path="*" exact element={<NoMatch />} />
-      </Routes>
-    </Suspense>
+      </Route>
+      <Route path="*" exact element={<NoMatch />} />
+    </Routes>
   </Router>
 );
 

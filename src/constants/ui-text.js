@@ -1,7 +1,7 @@
 // TODO: Need to update the structure
 const UI_TEXT = {
   COMMON: {
-    ALL_RIGHT_RESERVED: "Baitussalam All Right Reserved",
+    ALL_RIGHT_RESERVED: "Patient Rescue All Right Reserved",
   },
   CTA: {
     LOGIN: "Login",
