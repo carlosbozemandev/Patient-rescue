@@ -1,10 +1,9 @@
-import { Col, Divider, Layout, Row, Table, Modal } from "components";
+import { Col, Divider, Layout, Row, Table, Modal, Button, CustomIcon } from "components";
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "firebaseConfig";
 import { toast } from "utils";
 import { onAuthStateChanged } from "firebase/auth";
-import { EyeFilled } from "@ant-design/icons";
 
 // TODO: needs to adjust in to the fixtures files
 const columns = (viewFun) => [
@@ -24,7 +23,7 @@ const columns = (viewFun) => [
     key: "email",
   },
   {
-    title: "symptoms",
+    title: "Symptoms",
     dataIndex: "symptoms",
     key: "symptoms",
   },
@@ -39,18 +38,27 @@ const columns = (viewFun) => [
     align: "center",
     render: (record) => (
       <Row>
-        <Col span={12} xs={24} sm={12} lg={12}>
-          {/* <Button type="link"> */}
-          <EyeFilled onClick={() => viewFun(record)} />
-          {/* </Button> */}
+        <Col span={12} xs={24} sm={12} lg={8}>
+          <CustomIcon
+            name="EyeFilled"
+            additionalProps={{
+              style: { fontSize: "20px", color: "#fc653d" },
+              onClick: () => viewFun(record),
+            }}
+          />
         </Col>
+        {/* <Col span={12} xs={24} sm={12} lg={8}>
+          <Button text="Approve" onClick={() => viewFun(record)} />
+        </Col>
+        <Col span={12} xs={24} sm={12} lg={8}>
+          <Button text="Reject" type="danger" onClick={() => viewFun(record)} />
+        </Col> */}
       </Row>
     ),
   },
 ];
 
 const PatientRequest = () => {
-  console.log("first");
   const [isLoading, setIsLoading] = useState(false);
   const [dataList, setDataList] = useState([]);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -111,20 +119,41 @@ const PatientRequest = () => {
         dataSource={dataList}
       />
 
-      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-        <b> Email: </b> {recordState?.email}
+      <Modal
+        open={previewOpen}
+        title={previewTitle}
+        footer={[
+          <Row className="flex justify-end">
+            <Button text="Approve" onClick={() => {}} />
+            <Button text="Reject" type="danger" onClick={() => {}} />
+          </Row>,
+        ]}
+        onCancel={handleCancel}
+        width="80%"
+      >
         <br />
-        <b> Problem: </b> {recordState?.problem}
+        <h2>
+          <b> Patient Name: </b> {recordState?.patientname}
+        </h2>
+        <br />
+        <h3>
+          <b> Problem: </b> {recordState?.problem}
+        </h3>
+        <br />
+        <h3>
+          <b> Symptoms: </b> {recordState?.symptoms}
+        </h3>
+        <br />
+        <h3>
+          <b> Accepted By: </b> DR. Lee (General Physician at Seven Day Hospital)
+        </h3>
+        <br />
         <br />
         <Divider orientation="left" className="form-divider first">
           Images
         </Divider>
         {recordState?.documennts?.length > 0 &&
-          recordState?.documennts?.map((i) => (
-            <>
-              <img src={i} alt="" width={460} /> <Divider />
-            </>
-          ))}
+          recordState?.documennts?.map((i) => <img src={i} alt="" width="50%" />)}
       </Modal>
     </Layout>
   );

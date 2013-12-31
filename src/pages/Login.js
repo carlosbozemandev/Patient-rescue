@@ -34,7 +34,7 @@ const Login = () => {
     if (loading) {
       return;
     }
-    if (user) navigate("/dashboard/patient-request");
+    if (user) navigate("/dashboard");
   }, [user, loading, navigate]);
 
   const onLogin = ({ email, password }) => {

@@ -6,12 +6,6 @@
     "icon": "UserAddOutlined"
   },
   {
-    "key": 5,
-    "label": "Patient Request",
-    "route": "patient-request",
-    "icon": "PullRequestOutlined"
-  },
-  {
     "key": 4,
     "label": "Sent Requests",
     "route": "patient-list",

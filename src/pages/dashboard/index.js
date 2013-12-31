@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Layout, SideNav, HeaderTop, StickyFooter } from "components";
 import { UI_TEXT } from "constants";
 import { useState } from "react";
@@ -16,7 +17,7 @@ const Dashboard = () => {
         <Content className="site-layout-background content">
           <Outlet />
         </Content>
-        <StickyFooter>{UI_TEXT.COMMON.ALL_RIGHT_RESERVED}</StickyFooter>
+        {/* <StickyFooter>{UI_TEXT.COMMON.ALL_RIGHT_RESERVED}</StickyFooter> */}
       </Layout>
     </Layout>
   );

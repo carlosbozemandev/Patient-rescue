@@ -28,10 +28,8 @@ const UI_TEXT = {
     TITLE: "Ops something went wrong",
   },
   HOME: {
-    BAITUSSALAM_INTRO:
-      "Baitussalam Welfare Trust (BWT) is a Pakistan-based charity & welfare organisation, that creates opportunities for Muslims around the world to learn and practice the obligation of charity, humanitarian and social welfare services grounded in Islamic principles and contribute in the sustainable socio-economic development under the supervision of learned and experienced Islamic Scholars. Baitussalam is registered as international charity in FBR, Karachi Chambers of Commerce, and is enlisted in the second schedule of the Income Tax Ordinance under clause 61 and clause 66 in the Federal Finance Budget 2020. All donations to Baitussalam are eligible for tax credit.",
-    HOME: "HOME",
-    WELCOME: "Welcome to our Baitussalam Dashboard!",
+    HOME: "ABOUT",
+    WELCOME: "Welcome to our Patient Rescue System!",
   },
   MUSALLI: {
     ATTENDANCE_BULK: "ATTENDANCE BULK",

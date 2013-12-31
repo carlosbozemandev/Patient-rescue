@@ -5,6 +5,7 @@ import {
   UserAddOutlined,
   PullRequestOutlined,
   MedicineBoxOutlined,
+  EyeFilled,
 } from "@ant-design/icons";
 
 const CustomIcon = ({ name, classname, additionalProps }) => {
@@ -14,6 +15,7 @@ const CustomIcon = ({ name, classname, additionalProps }) => {
     UserAddOutlined,
     PullRequestOutlined,
     MedicineBoxOutlined,
+    EyeFilled,
   };
   const GenericComponent = IconType[name];
   return <GenericComponent className={classname} {...additionalProps} />;
